@@ -1,0 +1,2 @@
+export SQLALCHEMY_DATABASE_URI=""
+export SENTRY_DSN=""

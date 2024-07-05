@@ -1,0 +1,23 @@
+Incident Summary
+
+On 1st of July, a client sent a payload with {"a": 0, "b": 0} values as 0, to the division end point,
+causing many errors because input was invalid. as a result, `Division by Zero` error was thrown, as
+the application tried to perform a division operation with `b` as the divisor. Furthermore, since both
+values were Zero, this exposed a lack of proper validation checks within our input handling logic.
+
+Error Handling and Application Response
+
+After receiving the payload, the application tried to perform the division operation without verifying
+that `b` was non-Zero, leading to `ZeroDivisionError`. This error was not caught by our validation layer,
+leading to an unhandled exception and a 500 Internal Server Error response. Also, the application did not
+give a user-friendly error message, leaving the user without clear guide on how to correct the input.
+
+Resolution and Preventive Measures
+
+To solve this issue, I implemented an additional validation check in the input handling logic to
+ensure the divisor in this case `b` is always non-Zero and valid integer before proceeding with
+any division operation. The application now returns a 400 Bad Request response with a descriptive
+error message if the input fails validation. Moreover, I have added extensive logging and monitoring
+using Sentry to track similar issues in future and ensure timely alerts for unhandled exceptions.
+These measures aim to enhance the robustness of our application and prevent similar incidents from
+recurring.
